@@ -2,6 +2,7 @@
 
   python -m app.cli run                # chạy cập nhật ngay
   python -m app.cli collect            # thu thập giá thật (Scrapling/API) -> data/
+  python -m app.cli backfill           # nạp dữ liệu nền lịch sử (FRED) -> data/
   python -m app.cli intel [--collect] [--telegram]   # dựng báo cáo Price Intelligence
                                        #   --collect: thu thập trước; --telegram: gửi Telegram
   python -m app.cli prices             # in bảng giá mới nhất
@@ -83,6 +84,11 @@ def main() -> None:
         _run()
     elif cmd == "collect":
         _collect()
+    elif cmd == "backfill":
+        from app.collect import backfill
+
+        s = backfill()
+        print(f"Backfill: +{s['history_added']} điểm lịch sử ({s['series']} chuỗi)")
     elif cmd == "intel":
         _intel(collect="--collect" in args, telegram="--telegram" in args)
     elif cmd == "prices":

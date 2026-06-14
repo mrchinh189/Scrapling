@@ -105,8 +105,12 @@ def normalized_series(
     prod_rows = [r for r in rows if r["product"] == product]
     if not prod_rows:
         return []
-    # Chọn nguồn đại diện ổn định: (region, source) nhỏ nhất
-    rep_key = sorted({(r["region"], r["source"]) for r in prod_rows})[0]
+    # Chọn nguồn đại diện = nguồn có NHIỀU điểm nhất (chuỗi dài nhất đáng tin),
+    # tie-break theo (region, source) — để dữ liệu backfill lịch sử phát huy tác dụng.
+    from collections import Counter
+
+    counts = Counter((r["region"], r["source"]) for r in prod_rows)
+    rep_key = sorted(counts, key=lambda k: (-counts[k], k[0], k[1]))[0]
     series = []
     for r in sorted(prod_rows, key=lambda x: x["date"]):
         if (r["region"], r["source"]) != rep_key:

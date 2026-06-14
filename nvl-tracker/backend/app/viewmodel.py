@@ -74,6 +74,11 @@ def build_view_model(rows=None, fx=None) -> dict:
     index100 = spreads_mod.index_base100(list(series_map.keys()), rows, fx)
     forecasts = forecast_all(series_map)
 
+    # --- QC (flag biến động bất thường, giữ dữ liệu) ---
+    from app.analytics.qc import check_jumps
+
+    audit = check_jumps(rows, fx)
+
     # --- Alerts + narrative ---
     alerts = build_alerts(landed_by_product, spreads, forecasts, kpis)
     narrative = build_narrative(kpis, spreads, alerts)
@@ -106,6 +111,7 @@ def build_view_model(rows=None, fx=None) -> dict:
         "narrative": narrative,
         "sources": sources,
         "news": ds.load_news(),
+        "audit": audit,
     }
 
 

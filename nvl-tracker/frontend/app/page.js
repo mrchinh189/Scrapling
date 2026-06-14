@@ -111,8 +111,39 @@ export default function Dashboard() {
         ))}
       </section>
 
+      {/* At-sight ranking (mục ④) */}
+      {vm.landed && Object.keys(vm.landed).length > 0 && (
+        <>
+          <h2 style={h2}>③ Quy đổi at-sight tương đương (xếp hạng nguồn)</h2>
+          <section style={card}>
+            {Object.entries(vm.landed).map(([prod, rows]) => (
+              <div key={prod} style={{ marginBottom: 14 }}>
+                <div style={{ fontWeight: 600, marginBottom: 4 }}>{prod}</div>
+                <table style={table}>
+                  <thead><tr style={thr}>
+                    <th style={th}>Khu vực</th><th style={th}>Thanh toán</th>
+                    <th style={th}>Landed đ/kg</th><th style={th}>At-sight đ/kg</th><th style={th}>Nguồn</th>
+                  </tr></thead>
+                  <tbody>
+                    {[...rows].sort((a, b) => (a.at_sight_equiv ?? 9e15) - (b.at_sight_equiv ?? 9e15)).map((r, i) => (
+                      <tr key={i} style={{ ...tr, background: r.is_best ? "#13351f" : "transparent" }}>
+                        <td style={td}>{r.region}</td>
+                        <td style={td}>{r.payment_term}</td>
+                        <td style={td}>{fmt(r.landed_vnd_kg)}</td>
+                        <td style={{ ...td, fontWeight: 600 }}>{fmt(r.at_sight_equiv)}{r.is_best ? " ⭐" : ""}</td>
+                        <td style={{ ...td, opacity: 0.8 }}>{r.source}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            ))}
+          </section>
+        </>
+      )}
+
       {/* Spreads */}
-      <h2 style={h2}>③ Spread / chỉ báo dẫn</h2>
+      <h2 style={h2}>④ Spread / chỉ báo dẫn</h2>
       <section style={{ ...card, display: "flex", gap: 12, flexWrap: "wrap" }}>
         {vm.spreads.map((s) => (
           <div key={s.name} style={chip}>
@@ -124,7 +155,7 @@ export default function Dashboard() {
       </section>
 
       {/* Alerts */}
-      <h2 style={h2}>④ Cảnh báo & Đề xuất</h2>
+      <h2 style={h2}>⑤ Cảnh báo & Đề xuất</h2>
       <section style={card}>
         {vm.alerts.map((a, i) => (
           <div key={i} style={{ padding: "10px 0", borderTop: i ? "1px solid #1e293b" : "none" }}>
@@ -137,7 +168,7 @@ export default function Dashboard() {
       </section>
 
       {/* Forecast */}
-      <h2 style={h2}>⑤ Dự báo (baseline)</h2>
+      <h2 style={h2}>⑥ Dự báo (baseline)</h2>
       <section style={card}>
         <table style={table}>
           <thead><tr style={thr}>
@@ -159,7 +190,7 @@ export default function Dashboard() {
       </section>
 
       {/* Sources */}
-      <h2 style={h2}>⑥ Nguồn & độ tươi</h2>
+      <h2 style={h2}>⑦ Nguồn & độ tươi</h2>
       <section style={card}>
         <ul style={{ margin: 0, paddingLeft: 18 }}>
           {vm.sources.map((s) => (
@@ -175,7 +206,7 @@ export default function Dashboard() {
       {/* News */}
       {vm.news && vm.news.length > 0 && (
         <>
-          <h2 style={h2}>⑦ Tin tức mới cập nhật</h2>
+          <h2 style={h2}>⑧ Tin tức mới cập nhật</h2>
           <section style={card}>
             <ul style={{ margin: 0, paddingLeft: 18 }}>
               {vm.news.map((n, i) => (
@@ -192,7 +223,7 @@ export default function Dashboard() {
       )}
 
       {/* Reports */}
-      <h2 style={h2}>⑧ Báo cáo .docx</h2>
+      <h2 style={h2}>⑨ Báo cáo .docx</h2>
       <section style={card}>
         {reports.length === 0 ? <p style={{ opacity: 0.6 }}>Chưa có báo cáo.</p> : (
           <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>

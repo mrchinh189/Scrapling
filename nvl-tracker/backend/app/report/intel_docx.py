@@ -83,6 +83,12 @@ def build_intel_docx(vm: dict, report_id: str) -> str:
     for line in vm["narrative"]["combined_md"].split("\n\n"):
         doc.add_paragraph(line.replace("**", ""))
 
+    # Cảnh báo QC (nếu có biến động bất thường)
+    if vm.get("audit"):
+        p = doc.add_paragraph()
+        p.add_run(f"⚠️ QC: {len(vm['audit'])} bản ghi biến động bất thường (đã flag để soát, "
+                  f"không xoá).").italic = True
+
     # ⑤ Quy đổi at-sight tương đương — từng NVL
     doc.add_heading("④ Quy đổi GIÁ CHUNG → At-sight tương đương", level=1)
     for prod, rows in vm["landed"].items():
@@ -111,8 +117,20 @@ def build_intel_docx(vm: dict, report_id: str) -> str:
         p.add_run(f"[{a['severity']}] {a['title']}\n").bold = True
         p.add_run(f"{a['detail']}\n{a['recommendation']}")
 
-    # ⑨ Dự báo
-    doc.add_heading("⑥ Dự báo (baseline)", level=1)
+    # ⑥b Insight — biểu đồ chỉ số gốc-100 (phân kỳ resin vs phụ gia)
+    from app.report.charts import build_forecast_chart, build_index_chart
+    from docx.shared import Inches
+
+    idx_png = build_index_chart(vm, report_id)
+    if idx_png:
+        doc.add_heading("⑥ Insight — phân kỳ giá (chỉ số gốc-100)", level=1)
+        doc.add_picture(idx_png, width=Inches(6.2))
+        doc.add_paragraph(
+            "Đọc: nhựa nền (resin) hạ nhiệt trong khi phụ gia tăng → chiến lược mua "
+            "khác nhau theo nhóm.", style="Intense Quote")
+
+    # ⑦ Dự báo
+    doc.add_heading("⑦ Dự báo (baseline)", level=1)
     for prod, fc in vm["forecasts"].items():
         doc.add_paragraph(
             f"{prod}: model {fc['model']} · tin cậy {fc['confidence']} · "
@@ -121,9 +139,15 @@ def build_intel_docx(vm: dict, report_id: str) -> str:
         doc.add_paragraph(
             f"   T+{fc['horizon']}: {end['yhat']:,.0f} "
             f"(khoảng {end['lower']:,.0f}–{end['upper']:,.0f})", style="List Bullet")
+    # Chart dải tin cậy cho NVL ưu tiên nhất (KPI đầu)
+    if vm.get("kpis"):
+        top = vm["kpis"][0]["product"]
+        fc_png = build_forecast_chart(vm, top, report_id)
+        if fc_png:
+            doc.add_picture(fc_png, width=Inches(6.2))
 
     # Nguồn & độ tươi (kèm link + ngày giá)
-    doc.add_heading("⑦ Nguồn & độ tươi", level=1)
+    doc.add_heading("⑧ Nguồn & độ tươi", level=1)
     for s in vm["sources"]:
         p = doc.add_paragraph(style="List Bullet")
         _add_hyperlink(p, s["label"], s["url"])
@@ -131,7 +155,7 @@ def build_intel_docx(vm: dict, report_id: str) -> str:
 
     # ⑧ Tin tức mới (cuối báo cáo) — nhóm theo category
     if vm.get("news"):
-        doc.add_heading("⑧ Tin tức mới cập nhật", level=1)
+        doc.add_heading("⑨ Tin tức mới cập nhật", level=1)
         by_cat: dict[str, list] = {}
         for n in vm["news"]:
             by_cat.setdefault(n.get("category", "khác"), []).append(n)

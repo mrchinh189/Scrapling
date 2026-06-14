@@ -7,6 +7,10 @@ forecast:
   min_points_trend: 8       # >= : thêm trend/Holt
   min_points_season: 24     # >= : thử mùa vụ
 
+qc:
+  # Biến động giữa 2 kỳ vượt ngưỡng này → FLAG review (giữ bản ghi, không xoá)
+  jump_pct: 10.0
+
 alerts:
   # naphtha–ethylene spread thấp kéo dài → resin có thể tạo đáy
   naphtha_ethylene_floor_usd: 250

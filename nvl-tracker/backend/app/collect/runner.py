@@ -48,6 +48,21 @@ def _merge_csv(path: Path, cols: list[str], new_rows: list[dict], key) -> int:
     return added
 
 
+def backfill(years: Optional[int] = None) -> dict:
+    """Nạp dữ liệu nền lịch sử (FRED) → price_master.csv + Supabase. Fail-soft."""
+    from app.collect.history import collect_history
+    from app.db import intel_store
+
+    rows = collect_history(years)
+    added = _merge_csv(
+        PRICE_CSV, PRICE_COLS, rows,
+        key=lambda r: (r["date"], r["product"], r["region"], r["source"]),
+    ) if rows else 0
+    intel_store.persist_prices(rows)
+    logger.info("Backfill xong: +%d điểm lịch sử", added)
+    return {"history_added": added, "series": len({r["product"] for r in rows})}
+
+
 def collect_all(run_web: bool = True) -> dict:
     """Chạy mọi collector, ghi dữ liệu thật, trả tóm tắt."""
     from app.collect.eia import collect_eia

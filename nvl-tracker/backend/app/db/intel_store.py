@@ -115,6 +115,11 @@ def persist_analysis(vm: dict) -> bool:
                                           "usance_benefit", "at_sight_equiv", "is_best", "source")}})
         if landed_rows:
             c.table("landed").insert(landed_rows).execute()
+        # audit_log (QC) — giữ bản ghi flag, không xoá dữ liệu
+        if vm.get("audit"):
+            c.table("audit_log").insert(
+                [{"kind": a["kind"], "detail": a["detail"]} for a in vm["audit"]]
+            ).execute()
         return True
     except Exception as exc:  # noqa: BLE001
         logger.warning("persist_analysis lỗi: %s", exc)
