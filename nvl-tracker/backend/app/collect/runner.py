@@ -68,11 +68,17 @@ def collect_all(run_web: bool = True) -> dict:
         key=lambda r: (r["date"], r["product"], r["region"], r["source"]),
     ) if price_rows else 0
 
+    # Ghi vào Supabase nếu đã cấu hình (nguồn chân lý) — fail-soft
+    from app.db import intel_store
+
+    intel_store.persist_prices(price_rows)
+
     # Tỷ giá
     fx = collect_vietcombank()
     added_fx = 0
     if fx:
         added_fx = _merge_csv(FX_CSV, FX_COLS, [fx], key=lambda r: (r["date"],))
+        intel_store.persist_fx(fx)
 
     # Tin tức
     added_news = 0
@@ -82,6 +88,7 @@ def collect_all(run_web: bool = True) -> dict:
         news = collect_news()
         if news:
             added_news = _merge_csv(NEWS_CSV, NEWS_COLS, news, key=lambda r: (r["url"],))
+            intel_store.persist_news(news)
     except Exception as exc:  # noqa: BLE001
         logger.warning("Thu thập tin lỗi: %s", exc)
 

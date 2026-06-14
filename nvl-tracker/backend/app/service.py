@@ -76,9 +76,14 @@ def run_intel(*, send_telegram: bool = True, collect: bool = False) -> dict:
 
         collect_summary = collect_all()
 
-    vm = build_view_model()  # tự ưu tiên data/ (thật) rồi mới fixtures
+    vm = build_view_model()  # tự ưu tiên Supabase → data/ (thật) → fixtures
     if collect_summary:
         vm["meta"]["collect"] = collect_summary
+
+    # Ghi kết quả tính-1-lần xuống Supabase (parity DOCX/Web/Telegram) — fail-soft
+    from app.db import intel_store
+
+    intel_store.persist_analysis(vm)
     json_path = export_json(vm)
     docx_path = build_intel_docx(vm, report_id)
 

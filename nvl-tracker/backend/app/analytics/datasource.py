@@ -23,7 +23,21 @@ def _pick(name: str) -> Path:
     return live if live.exists() else (FIXTURES / name)
 
 
+def _from_db(loader: str):
+    """Thử đọc từ Supabase (nguồn chân lý) nếu đã cấu hình. None nếu không có."""
+    try:
+        from app.db import intel_store
+
+        return getattr(intel_store, loader)()
+    except Exception:  # noqa: BLE001
+        return None
+
+
 def load_price_master(path: Optional[Path] = None) -> list[dict]:
+    if path is None:
+        db = _from_db("load_prices")
+        if db:
+            return db
     p = path or _pick("price_master.csv")
     if not p.exists():
         return []
@@ -35,6 +49,10 @@ def load_price_master(path: Optional[Path] = None) -> list[dict]:
 
 
 def load_fx(path: Optional[Path] = None) -> list[dict]:
+    if path is None:
+        db = _from_db("load_fx")
+        if db:
+            return db
     p = path or _pick("fx.csv")
     if not p.exists():
         return []
@@ -105,7 +123,11 @@ def normalized_series(
 
 
 def load_news(path: Optional[Path] = None) -> list[dict]:
-    """Tin tức (data/news.csv thật, ngược lại fixtures/news.csv mẫu)."""
+    """Tin tức (Supabase → data/news.csv thật → fixtures/news.csv mẫu)."""
+    if path is None:
+        db = _from_db("load_news")
+        if db:
+            return db
     p = path or _pick("news.csv")
     if not p.exists():
         return []
