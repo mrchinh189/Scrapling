@@ -172,8 +172,27 @@ export default function Dashboard() {
         </ul>
       </section>
 
+      {/* News */}
+      {vm.news && vm.news.length > 0 && (
+        <>
+          <h2 style={h2}>⑦ Tin tức mới cập nhật</h2>
+          <section style={card}>
+            <ul style={{ margin: 0, paddingLeft: 18 }}>
+              {vm.news.map((n, i) => (
+                <li key={i} style={{ padding: "5px 0" }}>
+                  <span style={{ opacity: 0.55, fontSize: 12 }}>{n.published_at} · {n.category}</span><br />
+                  {n.url ? <a href={n.url} target="_blank" rel="noreferrer" style={link}>{n.title}</a>
+                         : <span>{n.title}</span>}
+                  {n.summary && <span style={{ opacity: 0.7, fontSize: 13 }}> — {n.summary}</span>}
+                </li>
+              ))}
+            </ul>
+          </section>
+        </>
+      )}
+
       {/* Reports */}
-      <h2 style={h2}>⑦ Báo cáo .docx</h2>
+      <h2 style={h2}>⑧ Báo cáo .docx</h2>
       <section style={card}>
         {reports.length === 0 ? <p style={{ opacity: 0.6 }}>Chưa có báo cáo.</p> : (
           <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>

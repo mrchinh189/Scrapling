@@ -19,9 +19,11 @@ logger = logging.getLogger(__name__)
 PRICE_COLS = ["date", "product", "region", "price_type", "payment_term",
               "raw_price", "raw_unit", "source"]
 FX_COLS = ["date", "usd_vnd", "rmb_vnd"]
+NEWS_COLS = ["published_at", "title", "summary", "url", "source", "category"]
 
 PRICE_CSV = DATA_DIR / "price_master.csv"
 FX_CSV = DATA_DIR / "fx.csv"
+NEWS_CSV = DATA_DIR / "news.csv"
 
 
 def _merge_csv(path: Path, cols: list[str], new_rows: list[dict], key) -> int:
@@ -72,14 +74,26 @@ def collect_all(run_web: bool = True) -> dict:
     if fx:
         added_fx = _merge_csv(FX_CSV, FX_COLS, [fx], key=lambda r: (r["date"],))
 
+    # Tin tức
+    added_news = 0
+    try:
+        from app.collect.news import collect_news
+
+        news = collect_news()
+        if news:
+            added_news = _merge_csv(NEWS_CSV, NEWS_COLS, news, key=lambda r: (r["url"],))
+    except Exception as exc:  # noqa: BLE001
+        logger.warning("Thu thập tin lỗi: %s", exc)
+
     summary = {
         "sources_ok": [r.source for r in results if r.ok],
         "sources_failed": [{"source": r.source, "error": r.error}
                            for r in results if not r.ok],
         "prices_added": added_prices,
         "fx_added": added_fx,
+        "news_added": added_news,
         "price_csv": str(PRICE_CSV) if price_rows else None,
     }
-    logger.info("Collect xong: +%d giá, +%d fx, %d nguồn lỗi",
-                added_prices, added_fx, len(summary["sources_failed"]))
+    logger.info("Collect xong: +%d giá, +%d fx, +%d tin, %d nguồn lỗi",
+                added_prices, added_fx, added_news, len(summary["sources_failed"]))
     return summary

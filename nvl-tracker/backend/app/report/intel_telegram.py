@@ -37,5 +37,14 @@ def build_intel_summary(vm: dict) -> str:
         else:
             lines.append(f"• {s['label']} — {s['latest_date']} {s['freshness']}")
 
+    # Tin mới
+    if vm.get("news"):
+        lines += ["", "📰 *Tin mới:*"]
+        for n in vm["news"][:5]:
+            if n.get("url"):
+                lines.append(f"• [{n['title']}]({n['url']}) — {n.get('published_at', '')}")
+            else:
+                lines.append(f"• {n['title']} — {n.get('published_at', '')}")
+
     lines += ["", f"⏱ Chạy lúc {meta['generated_at'][:16].replace('T', ' ')} · 📎 DOCX đính kèm"]
     return "\n".join(lines)

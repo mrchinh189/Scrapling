@@ -129,6 +129,21 @@ def build_intel_docx(vm: dict, report_id: str) -> str:
         _add_hyperlink(p, s["label"], s["url"])
         p.add_run(f" — ngày giá {s['latest_date']} {s['freshness']}")
 
+    # ⑧ Tin tức mới (cuối báo cáo) — nhóm theo category
+    if vm.get("news"):
+        doc.add_heading("⑧ Tin tức mới cập nhật", level=1)
+        by_cat: dict[str, list] = {}
+        for n in vm["news"]:
+            by_cat.setdefault(n.get("category", "khác"), []).append(n)
+        for cat, items in by_cat.items():
+            doc.add_heading(cat, level=3)
+            for n in items:
+                p = doc.add_paragraph(style="List Bullet")
+                p.add_run(f"{n.get('published_at', '')} — ")
+                _add_hyperlink(p, n.get("title", ""), n.get("url"))
+                if n.get("summary"):
+                    p.add_run(f" — {n['summary']}")
+
     out_dir = DATA_DIR / "reports"
     out_dir.mkdir(parents=True, exist_ok=True)
     path = out_dir / f"{report_id}.docx"

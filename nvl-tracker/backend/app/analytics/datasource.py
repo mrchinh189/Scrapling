@@ -104,6 +104,15 @@ def normalized_series(
     return series
 
 
+def load_news(path: Optional[Path] = None) -> list[dict]:
+    """Tin tức (data/news.csv thật, ngược lại fixtures/news.csv mẫu)."""
+    p = path or _pick("news.csv")
+    if not p.exists():
+        return []
+    with p.open(encoding="utf-8") as f:
+        return list(csv.DictReader(f))
+
+
 def all_products(rows: Optional[list[dict]] = None) -> list[str]:
     rows = rows if rows is not None else load_price_master()
     seen = []

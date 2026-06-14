@@ -1,0 +1,19 @@
+# =============================================================================
+# Nguồn tin tức thị trường (Google News RSS — miễn phí, không cần key).
+# Chỉ lưu tiêu đề + tóm tắt ngắn + link + ngày (KHÔNG full-text, KHÔNG nội dung trả phí).
+# category: resin | feedstock | additive | macro | policy
+# =============================================================================
+queries:
+  - { q: "polypropylene price", category: resin }
+  - { q: "polyethylene PE PP CFR Asia price", category: resin }
+  - { q: "naphtha Asia price", category: feedstock }
+  - { q: "ethylene propylene price Asia", category: feedstock }
+  - { q: "TiO2 titanium dioxide price", category: additive }
+  - { q: "stearic acid price", category: additive }
+  - { q: "Brent crude oil price", category: macro }
+
+# Số tin tối đa đưa vào báo cáo
+limit: 12
+# Ngôn ngữ/khu vực RSS
+hl: "vi"
+gl: "VN"

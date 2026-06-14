@@ -105,6 +105,7 @@ def build_view_model(rows=None, fx=None) -> dict:
         "alerts": alerts,
         "narrative": narrative,
         "sources": sources,
+        "news": ds.load_news(),
     }
 
 
