@@ -12,8 +12,15 @@
 #   price_type    : spot | futures | quote | unit_value
 #   payment_term  : at_sight | "L/C 90" | "TT 60" ...
 #   raw_unit      : usd_per_ton | cents_per_lb | rmb_per_ton | usd_per_bbl
-#   price_selector: CSS selector tới ô giá
-#   price_regex   : (tuỳ chọn) regex tách số
+#   --- Chọn 1 trong 3 cách trích (ưu tiên từ trên xuống) ---
+#   price_selector: CSS selector tới ô giá (chính xác nhất)
+#   anchor_text   : nhãn gần giá (vd "Brent") — lấy SỐ gần nhất sau nhãn (bền layout)
+#   page_regex    : regex trên toàn trang, group(1) = số (vd "Brent[^0-9]+([0-9.,]+)")
+#   price_regex   : (tuỳ chọn) regex tách số từ text đã lấy
+#
+# 💡 Dò selector: lưu trang thành .html rồi:
+#     python -m app.cli inspect duong-dan/trang.html      (tự gợi ý selector, offline)
+#   hoặc trên máy có mạng: python -m app.cli inspect "<url>"
 # =============================================================================
 
 web_sources:

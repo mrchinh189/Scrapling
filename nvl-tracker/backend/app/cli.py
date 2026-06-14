@@ -58,19 +58,36 @@ def _prices() -> None:
         print(f"{r['material_code']:12} {float(r['price']):>15,.0f} {r.get('unit','')}")
 
 
-def _inspect(url: str, css: str | None) -> None:
-    from scrapling.fetchers import Fetcher
+def _inspect(target: str, css: str | None) -> None:
+    """Dò selector. `target` = URL (cần mạng) hoặc đường dẫn file .html (offline)."""
+    from pathlib import Path
 
-    page = Fetcher.get(url, stealthy_headers=True, timeout=30)
-    print(f"HTTP {page.status} — {len(page.body)} bytes")
+    from app.collect.discover import suggest_selectors
+
+    if Path(target).exists():  # file HTML cục bộ — không cần mạng
+        html = Path(target).read_text(encoding="utf-8", errors="ignore")
+    else:
+        from scrapling.fetchers import Fetcher
+
+        page = Fetcher.get(target, stealthy_headers=True, timeout=30)
+        print(f"HTTP {page.status} — {len(page.body)} bytes")
+        html = page.body
+
+    from scrapling.parser import Selector
+
+    sel = Selector(content=html)
     if css:
-        found = page.css(css)
+        found = sel.css(css)
         print(f"Selector '{css}' khớp {len(found)} phần tử:")
         for el in found[:5]:
-            print("  ->", repr(el.text.strip()[:120]))
-    else:
-        print("Gợi ý: truyền thêm CSS selector để thử trích. Vd:")
-        print(f"  python -m app.cli inspect {url} '.price'")
+            print("  ->", repr((el.text or "").strip()[:120]))
+        return
+
+    print("Gợi ý selector cho ô giá (điểm cao = khả năng cao nhất):")
+    for s in suggest_selectors(html):
+        print(f"  [{s['score']}] {s['selector']}")
+        print(f"        text: {s['text']!r}")
+    print("\nDán selector phù hợp vào config/price_sources.yaml (price_selector).")
 
 
 def main() -> None:

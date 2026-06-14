@@ -34,6 +34,36 @@ def test_parse_web_source_placeholder_selector():
     assert parse_web_source(WEB_HTML, cfg) is None
 
 
+ANCHOR_HTML = "<html><body><p>Brent crude latest: 71.35 USD/bbl as of today</p></body></html>"
+
+
+def test_parse_web_source_anchor_text():
+    cfg = {"source": "X", "product": "BRENT", "region": "GLOBAL", "raw_unit": "usd_per_bbl",
+           "anchor_text": "Brent crude latest"}
+    row = parse_web_source(ANCHOR_HTML, cfg, date_="2026-06-10")
+    assert row and row["raw_price"] == 71.35
+
+
+def test_parse_web_source_page_regex():
+    cfg = {"source": "X", "product": "BRENT", "region": "GLOBAL", "raw_unit": "usd_per_bbl",
+           "page_regex": r"latest:\s*([0-9.,]+)"}
+    row = parse_web_source(ANCHOR_HTML, cfg)
+    assert row and row["raw_price"] == 71.35
+
+
+def test_suggest_selectors():
+    from app.collect.discover import suggest_selectors
+
+    html = """<html><body>
+      <div class="nav">Trang chủ 2024</div>
+      <table><tr><td>Sản phẩm</td><td class="px">1.250 USD/tấn</td></tr></table>
+    </body></html>"""
+    out = suggest_selectors(html, hint="USD")
+    assert out, "phải gợi ý ít nhất 1 selector"
+    # Ô có 'USD/tấn' phải xếp điểm cao nhất
+    assert "USD" in out[0]["text"]
+
+
 def test_collect_web_failsoft(monkeypatch):
     """Nguồn lỗi tải → ok=False, không ném exception."""
     import app.collect.web as web

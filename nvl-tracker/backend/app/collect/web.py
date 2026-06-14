@@ -6,6 +6,7 @@ Tách `parse_web_source` (thuần, test bằng HTML mẫu) khỏi phần tải m
 from __future__ import annotations
 
 import logging
+import re
 from pathlib import Path
 from typing import Optional
 
@@ -27,18 +28,36 @@ def load_web_sources(path: Optional[Path] = None) -> list[dict]:
 
 
 def parse_web_source(html: str, cfg: dict, date_: Optional[str] = None) -> Optional[dict]:
-    """Trích MỘT bản ghi price_master từ HTML theo cấu hình nguồn (testable)."""
+    """Trích MỘT bản ghi price_master từ HTML (testable). 3 chế độ, ưu tiên:
+
+    1. price_selector : CSS selector tới ô giá (chính xác nhất nếu có).
+    2. anchor_text    : tìm nhãn (vd "Brent"), lấy SỐ gần nhất sau nhãn (bền với layout).
+    3. page_regex     : regex trên toàn văn bản trang (group 1 = số).
+    """
     from scrapling.parser import Selector
 
     sel = Selector(content=html)
+    raw_text = ""
+
     selector = cfg.get("price_selector", "")
-    if not selector or selector == "REPLACE_ME":
-        return None
-    found = sel.css(selector)
-    if not found:
+    anchor = cfg.get("anchor_text", "")
+    page_regex = cfg.get("page_regex", "")
+
+    if selector and selector != "REPLACE_ME":
+        found = sel.css(selector)
+        if found:
+            raw_text = found[0].text or ""
+    elif anchor:
+        text = sel.get_all_text()
+        m = re.search(re.escape(anchor) + r"[^0-9\-]{0,60}([\-0-9.,]+)", text, re.IGNORECASE)
+        raw_text = m.group(1) if m else ""
+    elif page_regex:
+        m = re.search(page_regex, sel.get_all_text(), re.IGNORECASE)
+        raw_text = (m.group(1) if m and m.groups() else (m.group(0) if m else ""))
+
+    if not raw_text:
         logger.warning("Không thấy giá: %s @ %s", cfg.get("source"), cfg.get("url"))
         return None
-    raw_text = found[0].text or ""
     price = parse_price(raw_text, cfg.get("price_regex"))
     if price is None:
         logger.warning("Không tách được số '%s' (%s)", raw_text, cfg.get("source"))
