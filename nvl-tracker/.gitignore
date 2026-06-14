@@ -1,0 +1,15 @@
+# Bí mật
+.env
+*.env.local
+
+# Dữ liệu sinh ra khi chạy
+backend/data/*.db
+backend/data/reports/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Node / Next (frontend)
+frontend/node_modules/
+frontend/.next/
+frontend/.vercel/
