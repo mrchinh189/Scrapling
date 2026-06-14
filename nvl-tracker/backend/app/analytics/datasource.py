@@ -11,14 +11,20 @@ from collections import defaultdict
 from pathlib import Path
 from typing import Optional
 
-from app.config import BASE_DIR
+from app.config import BASE_DIR, DATA_DIR
 from app.analytics.units import to_usd_per_ton
 
 FIXTURES = BASE_DIR / "fixtures"
 
 
+def _pick(name: str) -> Path:
+    """Ưu tiên dữ liệu THẬT đã thu thập (data/) rồi mới đến fixtures mẫu."""
+    live = DATA_DIR / name
+    return live if live.exists() else (FIXTURES / name)
+
+
 def load_price_master(path: Optional[Path] = None) -> list[dict]:
-    p = path or (FIXTURES / "price_master.csv")
+    p = path or _pick("price_master.csv")
     if not p.exists():
         return []
     with p.open(encoding="utf-8") as f:
@@ -29,7 +35,7 @@ def load_price_master(path: Optional[Path] = None) -> list[dict]:
 
 
 def load_fx(path: Optional[Path] = None) -> list[dict]:
-    p = path or (FIXTURES / "fx.csv")
+    p = path or _pick("fx.csv")
     if not p.exists():
         return []
     with p.open(encoding="utf-8") as f:

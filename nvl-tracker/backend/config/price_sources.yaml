@@ -1,0 +1,51 @@
+# =============================================================================
+# Nguồn giá thật cho COLLECTORS (Scrapling). Mỗi mục → các bản ghi price_master.
+# Bật `enabled: true` và điền `price_selector` đúng sau khi dò bằng:
+#   python -m app.cli inspect "<url>" "<css>"
+#
+# Trường:
+#   source        : tên nguồn (khớp config/source_links.yaml để có hyperlink)
+#   url           : trang chứa giá
+#   fetcher       : static | stealthy (trang chặn bot/JS)
+#   product       : mã NVL (khớp materials.yaml)
+#   region        : khu vực xuất xứ giá (US/CN/SEA/ME/ASIA/GLOBAL)
+#   price_type    : spot | futures | quote | unit_value
+#   payment_term  : at_sight | "L/C 90" | "TT 60" ...
+#   raw_unit      : usd_per_ton | cents_per_lb | rmb_per_ton | usd_per_bbl
+#   price_selector: CSS selector tới ô giá
+#   price_regex   : (tuỳ chọn) regex tách số
+# =============================================================================
+
+web_sources:
+  - source: ThePlasticsExchange
+    url: "https://www.theplasticsexchange.com/Research/SpotPricing.aspx"
+    fetcher: stealthy
+    product: PP
+    region: US
+    price_type: spot
+    payment_term: at_sight
+    raw_unit: cents_per_lb
+    price_selector: "REPLACE_ME"
+    enabled: false
+
+  - source: ThePlasticsExchange
+    url: "https://www.theplasticsexchange.com/Research/SpotPricing.aspx"
+    fetcher: stealthy
+    product: PE
+    region: US
+    price_type: spot
+    payment_term: at_sight
+    raw_unit: cents_per_lb
+    price_selector: "REPLACE_ME"
+    enabled: false
+
+  - source: businessanalytiq
+    url: "https://businessanalytiq.com/procurementanalytics/index/titanium-dioxide-price-index/"
+    fetcher: static
+    product: TIO2
+    region: CN
+    price_type: quote
+    payment_term: "TT 60"
+    raw_unit: usd_per_ton
+    price_selector: "REPLACE_ME"
+    enabled: false

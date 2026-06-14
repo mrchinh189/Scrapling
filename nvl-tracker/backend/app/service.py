@@ -54,10 +54,11 @@ def _telegram_summary(changes: list[PriceChange], period: str) -> str:
     return "\n".join(lines)
 
 
-def run_intel(*, send_telegram: bool = True, use_fixtures: bool = True) -> dict:
-    """Pipeline Price Intelligence (lõi dự án): dựng view-model → JSON → DOCX → Telegram.
+def run_intel(*, send_telegram: bool = True, collect: bool = False) -> dict:
+    """Pipeline Price Intelligence (lõi dự án): (thu thập) → view-model → JSON → DOCX → Telegram.
 
-    use_fixtures=True: chạy offline bằng dữ liệu mẫu (không cần key).
+    collect=True: chạy collectors (Scrapling/API) làm tươi dữ liệu thật trước.
+    collect=False: dùng dữ liệu sẵn có (data/ nếu đã thu thập, ngược lại fixtures mẫu).
     Trả về view-model kèm đường dẫn artifact.
     """
     import uuid as _uuid
@@ -69,7 +70,15 @@ def run_intel(*, send_telegram: bool = True, use_fixtures: bool = True) -> dict:
     repo = get_repository()
     report_id = f"intel-{_uuid.uuid4().hex[:10]}"
 
-    vm = build_view_model()  # mặc định đọc fixtures; thay bằng DB khi có collector thật
+    collect_summary = None
+    if collect:
+        from app.collect import collect_all
+
+        collect_summary = collect_all()
+
+    vm = build_view_model()  # tự ưu tiên data/ (thật) rồi mới fixtures
+    if collect_summary:
+        vm["meta"]["collect"] = collect_summary
     json_path = export_json(vm)
     docx_path = build_intel_docx(vm, report_id)
 

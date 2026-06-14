@@ -89,12 +89,20 @@ def intel_view_model() -> dict:
 
 
 @router.post("/intel/run", dependencies=[Depends(require_token)])
-def intel_run(telegram: bool = Query(False)) -> dict:
-    """Chạy pipeline Price Intelligence (dựng view-model + DOCX + Telegram)."""
+def intel_run(telegram: bool = Query(False), collect: bool = Query(False)) -> dict:
+    """Chạy pipeline Price Intelligence. collect=true: thu thập giá thật trước."""
     from app.service import run_intel
 
-    vm = run_intel(send_telegram=telegram)
+    vm = run_intel(send_telegram=telegram, collect=collect)
     return {"status": "ok", "meta": vm["meta"], "artifacts": vm.get("_artifacts", {})}
+
+
+@router.post("/collect/run", dependencies=[Depends(require_token)])
+def collect_run() -> dict:
+    """Chỉ thu thập giá thật (Scrapling/API) → data/, không sinh báo cáo."""
+    from app.collect import collect_all
+
+    return collect_all()
 
 
 @router.post("/run", dependencies=[Depends(require_token)])

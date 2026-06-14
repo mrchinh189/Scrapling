@@ -89,6 +89,19 @@ cd backend
 python -m app.cli inspect "https://trang-nguon.vn/gia-thep" ".price-value"
 ```
 
+### Collectors thu thập giá thật (Scrapling + API)
+
+`config/price_sources.yaml` khai báo nguồn giá cho **Price Intelligence** (ThePlasticsExchange,
+DCE, businessanalytiq…). Tầng API (EIA Brent, Vietcombank USD/VND) chạy sẵn khi có key.
+Mọi nguồn **fail-soft**: thiếu key / bị chặn → SKIP, không gãy lượt.
+
+```bash
+python -m app.cli collect            # thu thập → data/price_master.csv, data/fx.csv
+python -m app.cli intel --collect    # thu thập rồi dựng báo cáo trên dữ liệu THẬT
+```
+
+Pipeline tự ưu tiên `data/` (dữ liệu thật) rồi mới đến `fixtures/` (mẫu offline).
+
 ---
 
 ## 4. Chạy nhanh (local, không cần Docker)
