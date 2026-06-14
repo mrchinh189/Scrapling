@@ -41,7 +41,13 @@ def build_narrative(kpis: list[dict], spreads: list[dict], alerts: list[dict]) -
         + ("Phân kỳ resin▼ vs phụ gia▲ đòi hỏi chiến lược mua khác nhau theo nhóm."
            if ups and downs else "Xu hướng giá tương đối đồng pha giữa các nhóm.")
     )
-    recs = [a["recommendation"].lstrip("→ ").strip() for a in alerts[:3]]
+    recs: list[str] = []
+    for a in alerts:
+        r = a["recommendation"].lstrip("→ ").strip()
+        if r not in recs:
+            recs.append(r)
+        if len(recs) >= 3:
+            break
     recommendation = "Khuyến nghị nhanh: " + (
         "; ".join(recs) if recs else "duy trì theo dõi, chưa có tín hiệu hành động khẩn."
     )
