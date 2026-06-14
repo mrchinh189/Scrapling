@@ -2,8 +2,8 @@
 
   python -m app.cli run                # chạy cập nhật ngay
   python -m app.cli collect            # thu thập giá thật (Scrapling/API) -> data/
-  python -m app.cli intel [--collect]  # dựng báo cáo Price Intelligence
-                                       #   --collect: thu thập trước; mặc định dùng dữ liệu sẵn
+  python -m app.cli intel [--collect] [--telegram]   # dựng báo cáo Price Intelligence
+                                       #   --collect: thu thập trước; --telegram: gửi Telegram
   python -m app.cli prices             # in bảng giá mới nhất
   python -m app.cli inspect <url> [css]  # dò HTML/selector của một trang
 """
@@ -38,10 +38,10 @@ def _collect() -> None:
         print(f"  [bỏ qua] {f['source']}: {f['error']}")
 
 
-def _intel(collect: bool = False) -> None:
+def _intel(collect: bool = False, telegram: bool = False) -> None:
     from app.service import run_intel
 
-    vm = run_intel(send_telegram=False, collect=collect)
+    vm = run_intel(send_telegram=telegram, collect=collect)
     art = vm["_artifacts"]
     print(f"Báo cáo Price Intelligence: {art['report_id']}")
     print(f"  NVL theo dõi: {vm['meta']['n_materials']} · ngày giá {vm['meta']['price_date']}")
@@ -84,7 +84,7 @@ def main() -> None:
     elif cmd == "collect":
         _collect()
     elif cmd == "intel":
-        _intel(collect="--collect" in args)
+        _intel(collect="--collect" in args, telegram="--telegram" in args)
     elif cmd == "prices":
         _prices()
     elif cmd == "inspect" and len(args) >= 2:

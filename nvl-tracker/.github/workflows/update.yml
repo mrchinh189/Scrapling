@@ -1,0 +1,48 @@
+# Cập nhật theo yêu cầu: kích từ Telegram (/capnhat → repo_dispatch) hoặc chạy tay.
+# Vị trí canonical khi nvl-tracker là repo riêng (backend ở ./backend).
+# Trong monorepo Scrapling: copy file này sang .github/workflows/ ở GỐC repo và
+# đổi `working-directory: backend` → `nvl-tracker/backend`.
+name: update
+
+on:
+  repository_dispatch:
+    types: [telegram-update]
+  workflow_dispatch:
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Cài dependencies
+        run: pip install -r requirements.txt
+      # (Tuỳ chọn) trình duyệt ẩn danh cho fetcher stealthy:
+      # - run: pip install "scrapling[fetchers]" && scrapling install
+      - name: Thu thập + dựng báo cáo + gửi Telegram
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          ANTHROPIC_MODEL: ${{ vars.ANTHROPIC_MODEL || 'claude-opus-4-8' }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          EIA_KEY: ${{ secrets.EIA_KEY }}
+          COMTRADE_KEY: ${{ secrets.COMTRADE_KEY }}
+          FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
+        run: python -m app.cli intel --collect --telegram
+      - name: Lưu artifact (báo cáo + view-model)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: price-intel-report
+          path: |
+            backend/data/reports/*.docx
+            backend/data/report-data.json
+          if-no-files-found: ignore

@@ -97,6 +97,40 @@ docker compose restart          # khởi động lại sau khi sửa .env / sour
 docker compose pull && docker compose up -d --build   # cập nhật phiên bản
 ```
 
+## Dự án A — Lập lịch bằng GitHub Actions + Telegram webhook 2 chiều
+
+Thay vì (hoặc song song với) docker-compose, có thể chạy pipeline **0đ trên GitHub Actions**.
+
+### 1. Workflows
+Trong `nvl-tracker/.github/workflows/` có sẵn:
+- `weekly.yml` — cron hàng tuần (mặc định 00:00 UTC thứ Tư ≈ 07:00 VN).
+- `update.yml` — chạy theo yêu cầu: `workflow_dispatch` hoặc `repository_dispatch` (event `telegram-update`).
+- `backfill.yml` — nạp dữ liệu nền (chạy tay).
+
+> Đây là vị trí khi **nvl-tracker là repo riêng** (backend ở `./backend`). Nếu giữ trong
+> monorepo, copy 3 file sang `.github/workflows/` ở GỐC repo và đổi
+> `working-directory: backend` → `nvl-tracker/backend`.
+
+### 2. Secrets (repo → Settings → Secrets and variables → Actions)
+`ANTHROPIC_API_KEY`, `TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID`, `EIA_KEY` (tuỳ chọn),
+`COMTRADE_KEY`, `FRED_API_KEY`, `SUPABASE_URL`, `SUPABASE_KEY`. Thiếu cái nào → fail-soft.
+
+### 3. Telegram webhook 2 chiều (qua Vercel)
+Lệnh nhẹ (`/gia /dubao /baocao /help`) trả ngay từ backend; lệnh nặng `/capnhat`
+bắn `repository_dispatch` để Actions chạy pipeline.
+
+1. Deploy frontend lên Vercel với env: `TELEGRAM_BOT_TOKEN`, `TELEGRAM_WEBHOOK_SECRET`
+   (chuỗi bí mật tự đặt), `GH_DISPATCH_PAT` (PAT scope `repo`), `GH_OWNER`, `GH_REPO`,
+   `BACKEND_API_URL`, `NEXT_PUBLIC_SITE_URL`.
+2. Đăng ký webhook với Telegram (1 lần):
+   ```bash
+   curl "https://api.telegram.org/bot<TOKEN>/setWebhook" \
+     -d "url=https://<your-app>.vercel.app/api/telegram" \
+     -d "secret_token=<TELEGRAM_WEBHOOK_SECRET>"
+   ```
+3. Nhắn bot `/capnhat` → nhận "⏳ Đã kích hoạt..." → vài phút sau nhận báo cáo do
+   workflow `update.yml` gửi về.
+
 ## Checklist bàn giao
 
 - [ ] `sources.yaml` đã cấu hình đúng nguồn NVL thật, `enabled: true`

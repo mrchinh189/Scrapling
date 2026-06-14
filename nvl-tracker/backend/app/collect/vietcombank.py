@@ -67,11 +67,9 @@ def _vcb_date(s: str) -> str:
 def collect_vietcombank() -> Optional[dict]:
     """Trả {date, usd_vnd, rmb_vnd} hoặc None (fail-soft)."""
     try:
-        import httpx
+        from app.collect.base import fetch_text
 
-        r = httpx.get(VCB_URL, timeout=30)
-        r.raise_for_status()
-        return parse_vcb_xml(r.text)
+        return parse_vcb_xml(fetch_text(VCB_URL))
     except Exception as exc:  # noqa: BLE001
         logger.error("Collector Vietcombank lỗi: %s", exc)
         return None

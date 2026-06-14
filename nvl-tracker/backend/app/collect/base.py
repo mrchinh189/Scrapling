@@ -50,6 +50,26 @@ def fetch_html(url: str, fetcher: str = "static", timeout: int = 30) -> str:
     return page.body if hasattr(page, "body") else str(page)
 
 
+def fetch_text(url: str, timeout: int = 30) -> str:
+    """Tải nội dung text/XML/RSS — ưu tiên Scrapling (stealthy headers, ít bị chặn),
+    fallback httpx. Dùng cho Vietcombank XML, Google News RSS."""
+    try:
+        from scrapling.fetchers import Fetcher
+
+        page = Fetcher.get(url, stealthy_headers=True, timeout=timeout)
+        if getattr(page, "status", 200) < 400:
+            return page.body if hasattr(page, "body") else str(page)
+        raise RuntimeError(f"HTTP {page.status}")
+    except ImportError:
+        pass  # bộ fetchers chưa cài → dùng httpx
+    import httpx
+
+    r = httpx.get(url, timeout=timeout, follow_redirects=True,
+                  headers={"User-Agent": "Mozilla/5.0 (compatible; NVLBot/1.0)"})
+    r.raise_for_status()
+    return r.text
+
+
 def make_row(
     *, date_: str, product: str, region: str, price_type: str,
     payment_term: str, raw_price: float, raw_unit: str, source: str,

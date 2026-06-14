@@ -88,7 +88,7 @@ def _rss_date(s: str) -> str:
 
 def collect_news(limit: Optional[int] = None) -> list[dict]:
     """Thu thập tin từ mọi truy vấn, khử trùng lặp theo URL. Fail-soft."""
-    import httpx
+    from app.collect.base import fetch_text
 
     cfg = load_news_config()
     limit = limit or int(cfg.get("limit", 12))
@@ -99,9 +99,8 @@ def collect_news(limit: Optional[int] = None) -> list[dict]:
     for query in cfg.get("queries", []):
         url = RSS.format(q=quote_plus(query["q"]), hl=hl, gl=gl)
         try:
-            r = httpx.get(url, timeout=20, follow_redirects=True)
-            r.raise_for_status()
-            for item in parse_google_news_rss(r.text, query.get("category", "")):
+            xml = fetch_text(url, timeout=20)
+            for item in parse_google_news_rss(xml, query.get("category", "")):
                 if item["url"] in seen:
                     continue
                 seen.add(item["url"])
