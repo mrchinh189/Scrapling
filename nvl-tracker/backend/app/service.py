@@ -54,6 +54,40 @@ def _telegram_summary(changes: list[PriceChange], period: str) -> str:
     return "\n".join(lines)
 
 
+def run_intel(*, send_telegram: bool = True, use_fixtures: bool = True) -> dict:
+    """Pipeline Price Intelligence (lõi dự án): dựng view-model → JSON → DOCX → Telegram.
+
+    use_fixtures=True: chạy offline bằng dữ liệu mẫu (không cần key).
+    Trả về view-model kèm đường dẫn artifact.
+    """
+    import uuid as _uuid
+
+    from app.report.intel_docx import build_intel_docx
+    from app.report.intel_telegram import build_intel_summary
+    from app.viewmodel import build_view_model, export_json
+
+    repo = get_repository()
+    report_id = f"intel-{_uuid.uuid4().hex[:10]}"
+
+    vm = build_view_model()  # mặc định đọc fixtures; thay bằng DB khi có collector thật
+    json_path = export_json(vm)
+    docx_path = build_intel_docx(vm, report_id)
+
+    title = f"Báo cáo Price Intelligence — {vm['meta']['price_date']}"
+    repo.save_report(
+        Report(report_id=report_id, title=title,
+               summary=vm["narrative"]["combined_md"][:500].replace("**", ""),
+               content_md=vm["narrative"]["combined_md"], docx_path=docx_path)
+    )
+
+    if send_telegram:
+        notifier.send_message(build_intel_summary(vm))
+        notifier.send_document(docx_path, caption=title)
+
+    vm["_artifacts"] = {"report_id": report_id, "docx_path": docx_path, "json_path": json_path}
+    return vm
+
+
 def run_update(*, send_telegram: bool = True, make_report: bool = True) -> RunResult:
     """Chạy 1 lượt cập nhật giá đầy đủ.
 

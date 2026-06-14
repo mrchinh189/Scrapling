@@ -7,6 +7,16 @@ có dashboard web (Vercel) và bot Telegram.
 Lõi crawl dùng [Scrapling](https://github.com/D4Vinci/Scrapling) — thư viện scraping
 chống phát hiện, hiệu năng cao.
 
+> **Lõi Price Intelligence** (theo yêu cầu dự án gốc — xem [`docs/YEU-CAU-priceintel.md`](docs/YEU-CAU-priceintel.md)):
+> quy đổi **at-sight tương đương** để xếp hạng nguồn, **spread/chỉ báo dẫn**, **forecast** baseline
+> (Theil's U), **cảnh báo quyết định**, **narrative**, gom vào **một view-model dùng chung**
+> để DOCX = Web = Telegram cùng số liệu. Chạy thử offline ngay (không cần key):
+> ```bash
+> cd backend && pip install -r requirements.txt
+> python fixtures/_generate.py        # sinh dữ liệu mẫu 12 tuần
+> python -m app.cli intel             # dựng view-model + DOCX 10 mục
+> ```
+
 ---
 
 ## 1. Kiến trúc

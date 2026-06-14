@@ -70,6 +70,33 @@ def download_report(report_id: str):
     )
 
 
+@router.get("/intel")
+def intel_view_model() -> dict:
+    """View-model Price Intelligence (KPI, at-sight, spreads, forecast, alerts, narrative).
+
+    Đọc report-data.json nếu có (do pipeline sinh), ngược lại dựng tại chỗ từ fixtures.
+    """
+    from app.config import BASE_DIR
+
+    p = BASE_DIR / "data" / "report-data.json"
+    if p.exists():
+        import json
+
+        return json.loads(p.read_text(encoding="utf-8"))
+    from app.viewmodel import build_view_model
+
+    return build_view_model()
+
+
+@router.post("/intel/run", dependencies=[Depends(require_token)])
+def intel_run(telegram: bool = Query(False)) -> dict:
+    """Chạy pipeline Price Intelligence (dựng view-model + DOCX + Telegram)."""
+    from app.service import run_intel
+
+    vm = run_intel(send_telegram=telegram)
+    return {"status": "ok", "meta": vm["meta"], "artifacts": vm.get("_artifacts", {})}
+
+
 @router.post("/run", dependencies=[Depends(require_token)])
 def run_now(telegram: bool = Query(True), report: bool = Query(True)) -> dict:
     """Chạy cập nhật giá ngay (theo yêu cầu)."""

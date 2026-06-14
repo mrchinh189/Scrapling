@@ -1,6 +1,7 @@
 """CLI tiện ích.
 
   python -m app.cli run                # chạy cập nhật ngay
+  python -m app.cli intel              # dựng báo cáo Price Intelligence (offline, fixtures)
   python -m app.cli prices             # in bảng giá mới nhất
   python -m app.cli inspect <url> [css]  # dò HTML/selector của một trang
 """
@@ -23,6 +24,18 @@ def _run() -> None:
         print(f"Báo cáo: {result.docx_path}")
     for e in result.errors:
         print(f"  [lỗi] {e}")
+
+
+def _intel() -> None:
+    from app.service import run_intel
+
+    vm = run_intel(send_telegram=False)
+    art = vm["_artifacts"]
+    print(f"Báo cáo Price Intelligence: {art['report_id']}")
+    print(f"  NVL theo dõi: {vm['meta']['n_materials']} · ngày giá {vm['meta']['price_date']}")
+    print(f"  Cảnh báo: {len(vm['alerts'])} thẻ · Spread: {len(vm['spreads'])}")
+    print(f"  DOCX: {art['docx_path']}")
+    print(f"  JSON view-model: {art['json_path']}")
 
 
 def _prices() -> None:
@@ -56,6 +69,8 @@ def main() -> None:
     cmd = args[0]
     if cmd == "run":
         _run()
+    elif cmd == "intel":
+        _intel()
     elif cmd == "prices":
         _prices()
     elif cmd == "inspect" and len(args) >= 2:
