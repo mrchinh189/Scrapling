@@ -19,3 +19,8 @@ sources:
   blog_tio2:            { label: "Blog TiO₂ (form nội bộ)", url: null }
   blog_stearic:         { label: "Blog stearic (form nội bộ)", url: null }
   NCC:                  { label: "Báo giá NCC (form nội bộ)", url: null }
+  # --- Nguồn bổ sung (research 2026-06-15) ---
+  SCI99:                { label: "SCI99 (trả phí)", url: "https://intl.sci99.com/" }
+  MPOC:                 { label: "MPOC (dầu cọ)", url: "https://www.mpoc.org.my/market-insight/daily-palm-oil-prices/" }
+  Investing:            { label: "Investing.com (ToS cấm cào — form nội bộ)", url: null }
+  LME:                  { label: "LME (ToS cấm cào — form nội bộ)", url: null }

@@ -56,3 +56,45 @@ web_sources:
     raw_unit: usd_per_ton
     price_selector: "REPLACE_ME"
     enabled: false
+
+  # --- Nguồn bổ sung (research 2026-06-15, xem docs/RESEARCH-nguon-gia.md) ---
+  # Dầu cọ (driver oleochemical: stearic/wax/zinc stearate). Trang động → stealthy.
+  # Dùng anchor_text để bền layout; bật sau khi dò trên server (sandbox không cào được).
+  - source: MPOC
+    url: "https://www.mpoc.org.my/market-insight/daily-palm-oil-prices/"
+    fetcher: stealthy
+    product: PALM_OIL
+    region: GLOBAL
+    price_type: spot
+    payment_term: at_sight
+    raw_unit: usd_per_ton
+    anchor_text: "CPO"           # lấy số gần nhãn CPO; tinh chỉnh sau khi xem trang
+    enabled: false
+
+  # MPOB (chính phủ Malaysia, free) — nguồn dầu cọ ưu tiên hơn MPOC.
+  - source: MPOB
+    url: "https://bepi.mpob.gov.my/index.php/price/daily"
+    fetcher: stealthy
+    product: PALM_OIL
+    region: GLOBAL
+    price_type: spot
+    payment_term: at_sight
+    raw_unit: usd_per_ton
+    anchor_text: "Crude Palm Oil"
+    enabled: false
+
+  # SCI99 — DỊCH VỤ TRẢ PHÍ. ⚠️ Kiểm tra ToS / có thể cần đăng nhập trước khi bật.
+  # Chỉ dùng nếu bạn có quyền truy cập hợp lệ. Carbon black là phụ gia liên quan.
+  - source: SCI99
+    url: "https://intl.sci99.com/industry/12969/price"
+    fetcher: stealthy
+    product: CARBON_BLACK
+    region: CN
+    price_type: quote
+    payment_term: "TT 60"
+    raw_unit: usd_per_ton
+    price_selector: "REPLACE_ME"
+    enabled: false
+
+  # ❌ KHÔNG thêm Investing.com FCPO và LME Zinc làm mục tiêu cào — ToS cấm.
+  #    Dùng MPOB/FRED cho dầu cọ; nhập tay (form nội bộ) cho kẽm LME.
