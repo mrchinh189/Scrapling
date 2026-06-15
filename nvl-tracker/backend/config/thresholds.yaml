@@ -1,0 +1,20 @@
+# =============================================================================
+# Ngưỡng quyết định (alerts/rules) + tham số forecast
+# =============================================================================
+forecast:
+  horizon_weeks: 6
+  min_points_naive: 4       # < ngưỡng này: chỉ naive
+  min_points_trend: 8       # >= : thêm trend/Holt
+  min_points_season: 24     # >= : thử mùa vụ
+
+qc:
+  # Biến động giữa 2 kỳ vượt ngưỡng này → FLAG review (giữ bản ghi, không xoá)
+  jump_pct: 10.0
+
+alerts:
+  # naphtha–ethylene spread thấp kéo dài → resin có thể tạo đáy
+  naphtha_ethylene_floor_usd: 250
+  # biến động giá tuần vượt ngưỡng → cảnh báo
+  weekly_jump_pct: 5.0
+  # forecast giảm > ngưỡng → tín hiệu CHỜ mua
+  forecast_drop_pct: 3.0

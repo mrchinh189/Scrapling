@@ -1,0 +1,29 @@
+# Nạp dữ liệu nền (chạy 1 lần khi khởi tạo hoặc làm tươi định kỳ).
+# Hiện chạy collect đầy đủ; khi có collect/history.py (FRED/World Bank 3–5 năm)
+# sẽ thay bằng bước backfill lịch sử để forecast tin cậy hơn.
+name: backfill
+
+on:
+  workflow_dispatch:
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - run: pip install -r requirements.txt
+      - name: Thu thập dữ liệu nền
+        env:
+          EIA_KEY: ${{ secrets.EIA_KEY }}
+          COMTRADE_KEY: ${{ secrets.COMTRADE_KEY }}
+          FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
+        run: python -m app.cli backfill

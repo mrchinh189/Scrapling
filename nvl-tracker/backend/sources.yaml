@@ -1,0 +1,46 @@
+# =============================================================================
+# Danh sách nguồn cập nhật giá Nguyên Vật Liệu (NVL)
+# -----------------------------------------------------------------------------
+# Mỗi mục là một NVL cần theo dõi. Hệ thống dùng Scrapling để tải trang và
+# trích giá theo `price_selector` (CSS selector).
+#
+#   code           : mã NVL (duy nhất), vd STEEL, CEMENT, COPPER
+#   name           : tên hiển thị
+#   unit           : đơn vị giá (VND/kg, USD/tấn, ...)
+#   url            : đường dẫn trang chứa giá
+#   fetcher        : "static" (mặc định, nhanh) hoặc "stealthy" (trình duyệt ẩn
+#                    danh, dùng khi trang chặn bot / render bằng JavaScript)
+#   price_selector : CSS selector tới phần tử chứa giá
+#   price_regex    : (tuỳ chọn) regex tách số từ text. Bỏ trống = tự nhận diện.
+#   enabled        : true/false để bật/tắt nguồn
+#
+# 👉 HÃY THAY các URL / selector ví dụ bên dưới bằng nguồn thật của bạn.
+#    Dùng lệnh:  python -m app.cli inspect <url>   để dò selector.
+# =============================================================================
+
+sources:
+  - code: STEEL
+    name: "Thép xây dựng (Hòa Phát)"
+    unit: "VND/kg"
+    url: "https://example.com/gia-thep"
+    fetcher: static
+    price_selector: ".price-value"
+    enabled: false
+
+  - code: CEMENT
+    name: "Xi măng PCB40"
+    unit: "VND/bao"
+    url: "https://example.com/gia-xi-mang"
+    fetcher: static
+    price_selector: "#cement-price"
+    enabled: false
+
+  # Ví dụ chạy thật được ngay (không cần token) — giá vàng SJC để minh hoạ pipeline.
+  # Bạn có thể xoá mục này sau khi đã cấu hình nguồn NVL thật.
+  - code: DEMO_GOLD
+    name: "Vàng SJC (demo pipeline)"
+    unit: "VND/lượng"
+    url: "https://sjc.com.vn/giavang/textContent.php"
+    fetcher: static
+    price_selector: "tr:nth-child(2) td:nth-child(3)"
+    enabled: false

@@ -1,0 +1,103 @@
+# =============================================================================
+# Danh mục NVL theo dõi (chốt từ Danh muc NVL Masterlist.xlsx — theo % chi tiêu)
+# spend_weight: tỷ trọng chi tiêu (để ưu tiên & tính basket index)
+# family: nhóm họ vật liệu | duty_key: khóa thuế NK trong landed.yaml
+# price_sources: nguồn giá tham chiếu (tên khớp source_links.yaml)
+# =============================================================================
+materials:
+  # --- Nhựa nền (42% chi tiêu) ---
+  - key: PP
+    label: "Polypropylene (PP)"
+    family: resin
+    spend_weight: 0.22
+    priority: 1
+    duty_key: pp
+    price_sources: [ThePlasticsExchange, DCE, Polymerupdate]
+  - key: PE
+    label: "Polyethylene (LLDPE/LDPE)"
+    family: resin
+    spend_weight: 0.12
+    priority: 1
+    duty_key: pe
+    price_sources: [ThePlasticsExchange, DCE]
+  - key: HDPE
+    label: "HDPE"
+    family: resin
+    spend_weight: 0.06
+    priority: 2
+    duty_key: pe
+    price_sources: [ThePlasticsExchange]
+  - key: PS
+    label: "Polystyrene (GPPS/HIPS)"
+    family: resin
+    spend_weight: 0.02
+    priority: 3
+    duty_key: ps
+    price_sources: [businessanalytiq]
+
+  # --- Feedstock (chỉ báo dẫn — không quy landed) ---
+  - key: BRENT
+    label: "Dầu Brent"
+    family: feedstock
+    spend_weight: 0.0
+    priority: 1
+    duty_key: null
+    price_sources: [EIA]
+  - key: NAPHTHA
+    label: "Naphtha"
+    family: feedstock
+    spend_weight: 0.0
+    priority: 2
+    duty_key: null
+    price_sources: [EIA]
+  - key: ETHYLENE
+    label: "Ethylene"
+    family: feedstock
+    spend_weight: 0.0
+    priority: 2
+    duty_key: null
+    price_sources: [businessanalytiq]
+  - key: PROPYLENE
+    label: "Propylene"
+    family: feedstock
+    spend_weight: 0.0
+    priority: 2
+    duty_key: null
+    price_sources: [businessanalytiq]
+
+  # --- Phụ gia (24% chi tiêu) ---
+  - key: TIO2
+    label: "TiO₂ rutile"
+    family: additive
+    spend_weight: 0.05
+    priority: 1
+    duty_key: tio2
+    price_sources: [businessanalytiq, blog_tio2]
+  - key: PE_WAX
+    label: "PE wax"
+    family: additive
+    spend_weight: 0.10
+    priority: 1
+    duty_key: additive
+    price_sources: [businessanalytiq]   # thường không có PRA công khai → fail-soft
+  - key: BASE_OIL
+    label: "Base/Paraffin oil"
+    family: additive
+    spend_weight: 0.11
+    priority: 1
+    duty_key: additive
+    price_sources: [businessanalytiq]
+  - key: STEARIC
+    label: "Stearic acid"
+    family: additive
+    spend_weight: 0.04
+    priority: 2
+    duty_key: stearic
+    price_sources: [MPOB, blog_stearic]
+  - key: ZINC_STEARATE
+    label: "Zinc stearate"
+    family: additive
+    spend_weight: 0.04
+    priority: 2
+    duty_key: additive
+    price_sources: [businessanalytiq]

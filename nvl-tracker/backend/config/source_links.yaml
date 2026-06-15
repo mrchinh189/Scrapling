@@ -1,0 +1,26 @@
+# =============================================================================
+# Sổ tra tên-nguồn-trong-DB → {label, url} để hiển thị NGUỒN có LINK bấm được
+# ở mọi nơi (DOCX, Telegram, Web). Nguồn không có URL công khai (NCC/circular)
+# đặt url: null → hiển thị "form nội bộ".
+# =============================================================================
+sources:
+  EIA:                  { label: "EIA (eia.gov)", url: "https://www.eia.gov/opendata/" }
+  Vietcombank:          { label: "Vietcombank", url: "https://portal.vietcombank.com.vn/Personal/TG/Pages/ty-gia.aspx" }
+  UN_Comtrade:          { label: "UN Comtrade", url: "https://comtradeplus.un.org/" }
+  ThePlasticsExchange:  { label: "ThePlasticsExchange", url: "https://www.theplasticsexchange.com/" }
+  DCE:                  { label: "DCE (Đại Liên)", url: "http://www.dce.com.cn/" }
+  ICE:                  { label: "ICE", url: "https://www.ice.com/" }
+  CME:                  { label: "CME", url: "https://www.cmegroup.com/" }
+  MPOB:                 { label: "MPOB (dầu cọ)", url: "https://bepi.mpob.gov.my/" }
+  Polymerupdate:        { label: "Polymerupdate (free)", url: "https://www.polymerupdate.com/" }
+  businessanalytiq:     { label: "businessanalytiq", url: "https://businessanalytiq.com/procurementanalytics/index/" }
+  FRED:                 { label: "FRED", url: "https://fred.stlouisfed.org/" }
+  WorldBank:            { label: "World Bank Pink Sheet", url: "https://www.worldbank.org/en/research/commodity-markets" }
+  blog_tio2:            { label: "Blog TiO₂ (form nội bộ)", url: null }
+  blog_stearic:         { label: "Blog stearic (form nội bộ)", url: null }
+  NCC:                  { label: "Báo giá NCC (form nội bộ)", url: null }
+  # --- Nguồn bổ sung (research 2026-06-15) ---
+  SCI99:                { label: "SCI99 (trả phí)", url: "https://intl.sci99.com/" }
+  MPOC:                 { label: "MPOC (dầu cọ)", url: "https://www.mpoc.org.my/market-insight/daily-palm-oil-prices/" }
+  Investing:            { label: "Investing.com (ToS cấm cào — form nội bộ)", url: null }
+  LME:                  { label: "LME (ToS cấm cào — form nội bộ)", url: null }

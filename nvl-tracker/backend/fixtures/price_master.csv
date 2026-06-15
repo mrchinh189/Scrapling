@@ -1,0 +1,169 @@
+date,product,region,price_type,payment_term,raw_price,raw_unit,source
+2026-03-23,PP,US,spot,at_sight,54.0,cents_per_lb,ThePlasticsExchange
+2026-03-30,PP,US,spot,at_sight,54.33,cents_per_lb,ThePlasticsExchange
+2026-04-06,PP,US,spot,at_sight,54.09,cents_per_lb,ThePlasticsExchange
+2026-04-13,PP,US,spot,at_sight,53.31,cents_per_lb,ThePlasticsExchange
+2026-04-20,PP,US,spot,at_sight,52.63,cents_per_lb,ThePlasticsExchange
+2026-04-27,PP,US,spot,at_sight,52.58,cents_per_lb,ThePlasticsExchange
+2026-05-04,PP,US,spot,at_sight,52.99,cents_per_lb,ThePlasticsExchange
+2026-05-11,PP,US,spot,at_sight,53.19,cents_per_lb,ThePlasticsExchange
+2026-05-18,PP,US,spot,at_sight,52.75,cents_per_lb,ThePlasticsExchange
+2026-05-25,PP,US,spot,at_sight,51.93,cents_per_lb,ThePlasticsExchange
+2026-06-01,PP,US,spot,at_sight,51.4,cents_per_lb,ThePlasticsExchange
+2026-06-08,PP,US,spot,at_sight,51.53,cents_per_lb,ThePlasticsExchange
+2026-03-23,PP,CN,futures,L/C 90,7650.0,rmb_per_ton,DCE
+2026-03-30,PP,CN,futures,L/C 90,7667.65,rmb_per_ton,DCE
+2026-04-06,PP,CN,futures,L/C 90,7646.34,rmb_per_ton,DCE
+2026-04-13,PP,CN,futures,L/C 90,7589.69,rmb_per_ton,DCE
+2026-04-20,PP,CN,futures,L/C 90,7539.94,rmb_per_ton,DCE
+2026-04-27,PP,CN,futures,L/C 90,7531.78,rmb_per_ton,DCE
+2026-05-04,PP,CN,futures,L/C 90,7554.46,rmb_per_ton,DCE
+2026-05-11,PP,CN,futures,L/C 90,7563.53,rmb_per_ton,DCE
+2026-05-18,PP,CN,futures,L/C 90,7529.4,rmb_per_ton,DCE
+2026-05-25,PP,CN,futures,L/C 90,7469.7,rmb_per_ton,DCE
+2026-06-01,PP,CN,futures,L/C 90,7430.0,rmb_per_ton,DCE
+2026-06-08,PP,CN,futures,L/C 90,7434.01,rmb_per_ton,DCE
+2026-03-23,PP,SEA,quote,TT 60,1185.0,usd_per_ton,NCC
+2026-03-30,PP,SEA,quote,TT 60,1189.13,usd_per_ton,NCC
+2026-04-06,PP,SEA,quote,TT 60,1185.47,usd_per_ton,NCC
+2026-04-13,PP,SEA,quote,TT 60,1174.74,usd_per_ton,NCC
+2026-04-20,PP,SEA,quote,TT 60,1165.39,usd_per_ton,NCC
+2026-04-27,PP,SEA,quote,TT 60,1164.36,usd_per_ton,NCC
+2026-05-04,PP,SEA,quote,TT 60,1169.49,usd_per_ton,NCC
+2026-05-11,PP,SEA,quote,TT 60,1171.91,usd_per_ton,NCC
+2026-05-18,PP,SEA,quote,TT 60,1165.68,usd_per_ton,NCC
+2026-05-25,PP,SEA,quote,TT 60,1154.34,usd_per_ton,NCC
+2026-06-01,PP,SEA,quote,TT 60,1147.0,usd_per_ton,NCC
+2026-06-08,PP,SEA,quote,TT 60,1148.4,usd_per_ton,NCC
+2026-03-23,PE,US,spot,at_sight,46.0,cents_per_lb,ThePlasticsExchange
+2026-03-30,PE,US,spot,at_sight,46.3,cents_per_lb,ThePlasticsExchange
+2026-04-06,PE,US,spot,at_sight,46.1,cents_per_lb,ThePlasticsExchange
+2026-04-13,PE,US,spot,at_sight,45.47,cents_per_lb,ThePlasticsExchange
+2026-04-20,PE,US,spot,at_sight,44.92,cents_per_lb,ThePlasticsExchange
+2026-04-27,PE,US,spot,at_sight,44.9,cents_per_lb,ThePlasticsExchange
+2026-05-04,PE,US,spot,at_sight,45.26,cents_per_lb,ThePlasticsExchange
+2026-05-11,PE,US,spot,at_sight,45.44,cents_per_lb,ThePlasticsExchange
+2026-05-18,PE,US,spot,at_sight,45.09,cents_per_lb,ThePlasticsExchange
+2026-05-25,PE,US,spot,at_sight,44.42,cents_per_lb,ThePlasticsExchange
+2026-06-01,PE,US,spot,at_sight,44.0,cents_per_lb,ThePlasticsExchange
+2026-06-08,PE,US,spot,at_sight,44.13,cents_per_lb,ThePlasticsExchange
+2026-03-23,PE,CN,futures,L/C 90,7350.0,rmb_per_ton,DCE
+2026-03-30,PE,CN,futures,L/C 90,7369.19,rmb_per_ton,DCE
+2026-04-06,PE,CN,futures,L/C 90,7354.3,rmb_per_ton,DCE
+2026-04-13,PE,CN,futures,L/C 90,7308.48,rmb_per_ton,DCE
+2026-04-20,PE,CN,futures,L/C 90,7268.69,rmb_per_ton,DCE
+2026-04-27,PE,CN,futures,L/C 90,7265.31,rmb_per_ton,DCE
+2026-05-04,PE,CN,futures,L/C 90,7288.9,rmb_per_ton,DCE
+2026-05-11,PE,CN,futures,L/C 90,7300.59,rmb_per_ton,DCE
+2026-05-18,PE,CN,futures,L/C 90,7274.47,rmb_per_ton,DCE
+2026-05-25,PE,CN,futures,L/C 90,7225.99,rmb_per_ton,DCE
+2026-06-01,PE,CN,futures,L/C 90,7195.0,rmb_per_ton,DCE
+2026-06-08,PE,CN,futures,L/C 90,7202.26,rmb_per_ton,DCE
+2026-03-23,HDPE,US,spot,at_sight,48.0,cents_per_lb,ThePlasticsExchange
+2026-03-30,HDPE,US,spot,at_sight,48.35,cents_per_lb,ThePlasticsExchange
+2026-04-06,HDPE,US,spot,at_sight,48.2,cents_per_lb,ThePlasticsExchange
+2026-04-13,HDPE,US,spot,at_sight,47.62,cents_per_lb,ThePlasticsExchange
+2026-04-20,HDPE,US,spot,at_sight,47.12,cents_per_lb,ThePlasticsExchange
+2026-04-27,HDPE,US,spot,at_sight,47.15,cents_per_lb,ThePlasticsExchange
+2026-05-04,HDPE,US,spot,at_sight,47.56,cents_per_lb,ThePlasticsExchange
+2026-05-11,HDPE,US,spot,at_sight,47.79,cents_per_lb,ThePlasticsExchange
+2026-05-18,HDPE,US,spot,at_sight,47.49,cents_per_lb,ThePlasticsExchange
+2026-05-25,HDPE,US,spot,at_sight,46.87,cents_per_lb,ThePlasticsExchange
+2026-06-01,HDPE,US,spot,at_sight,46.5,cents_per_lb,ThePlasticsExchange
+2026-06-08,HDPE,US,spot,at_sight,46.68,cents_per_lb,ThePlasticsExchange
+2026-03-23,PS,SEA,quote,TT 30,1320.0,usd_per_ton,businessanalytiq
+2026-03-30,PS,SEA,quote,TT 30,1323.35,usd_per_ton,businessanalytiq
+2026-04-06,PS,SEA,quote,TT 30,1320.85,usd_per_ton,businessanalytiq
+2026-04-13,PS,SEA,quote,TT 30,1313.05,usd_per_ton,businessanalytiq
+2026-04-20,PS,SEA,quote,TT 30,1306.29,usd_per_ton,businessanalytiq
+2026-04-27,PS,SEA,quote,TT 30,1305.77,usd_per_ton,businessanalytiq
+2026-05-04,PS,SEA,quote,TT 30,1309.87,usd_per_ton,businessanalytiq
+2026-05-11,PS,SEA,quote,TT 30,1311.93,usd_per_ton,businessanalytiq
+2026-05-18,PS,SEA,quote,TT 30,1307.51,usd_per_ton,businessanalytiq
+2026-05-25,PS,SEA,quote,TT 30,1299.25,usd_per_ton,businessanalytiq
+2026-06-01,PS,SEA,quote,TT 30,1294.0,usd_per_ton,businessanalytiq
+2026-06-08,PS,SEA,quote,TT 30,1295.3,usd_per_ton,businessanalytiq
+2026-03-23,BRENT,GLOBAL,spot,at_sight,71.0,usd_per_bbl,EIA
+2026-03-30,BRENT,GLOBAL,spot,at_sight,71.67,usd_per_bbl,EIA
+2026-04-06,BRENT,GLOBAL,spot,at_sight,71.17,usd_per_bbl,EIA
+2026-04-13,BRENT,GLOBAL,spot,at_sight,69.61,usd_per_bbl,EIA
+2026-04-20,BRENT,GLOBAL,spot,at_sight,68.26,usd_per_bbl,EIA
+2026-04-27,BRENT,GLOBAL,spot,at_sight,68.15,usd_per_bbl,EIA
+2026-05-04,BRENT,GLOBAL,spot,at_sight,68.97,usd_per_bbl,EIA
+2026-05-11,BRENT,GLOBAL,spot,at_sight,69.39,usd_per_bbl,EIA
+2026-05-18,BRENT,GLOBAL,spot,at_sight,68.5,usd_per_bbl,EIA
+2026-05-25,BRENT,GLOBAL,spot,at_sight,66.85,usd_per_bbl,EIA
+2026-06-01,BRENT,GLOBAL,spot,at_sight,65.8,usd_per_bbl,EIA
+2026-06-08,BRENT,GLOBAL,spot,at_sight,66.06,usd_per_bbl,EIA
+2026-03-23,NAPHTHA,ASIA,spot,at_sight,620.0,usd_per_ton,EIA
+2026-03-30,NAPHTHA,ASIA,spot,at_sight,624.63,usd_per_ton,EIA
+2026-04-06,NAPHTHA,ASIA,spot,at_sight,621.47,usd_per_ton,EIA
+2026-04-13,NAPHTHA,ASIA,spot,at_sight,611.24,usd_per_ton,EIA
+2026-04-20,NAPHTHA,ASIA,spot,at_sight,602.39,usd_per_ton,EIA
+2026-04-27,NAPHTHA,ASIA,spot,at_sight,601.86,usd_per_ton,EIA
+2026-05-04,NAPHTHA,ASIA,spot,at_sight,607.49,usd_per_ton,EIA
+2026-05-11,NAPHTHA,ASIA,spot,at_sight,610.41,usd_per_ton,EIA
+2026-05-18,NAPHTHA,ASIA,spot,at_sight,604.68,usd_per_ton,EIA
+2026-05-25,NAPHTHA,ASIA,spot,at_sight,593.84,usd_per_ton,EIA
+2026-06-01,NAPHTHA,ASIA,spot,at_sight,587.0,usd_per_ton,EIA
+2026-06-08,NAPHTHA,ASIA,spot,at_sight,588.9,usd_per_ton,EIA
+2026-03-23,ETHYLENE,ASIA,spot,at_sight,850.0,usd_per_ton,businessanalytiq
+2026-03-30,ETHYLENE,ASIA,spot,at_sight,853.85,usd_per_ton,businessanalytiq
+2026-04-06,ETHYLENE,ASIA,spot,at_sight,851.85,usd_per_ton,businessanalytiq
+2026-04-13,ETHYLENE,ASIA,spot,at_sight,844.55,usd_per_ton,businessanalytiq
+2026-04-20,ETHYLENE,ASIA,spot,at_sight,838.29,usd_per_ton,businessanalytiq
+2026-04-27,ETHYLENE,ASIA,spot,at_sight,838.27,usd_per_ton,businessanalytiq
+2026-05-04,ETHYLENE,ASIA,spot,at_sight,842.87,usd_per_ton,businessanalytiq
+2026-05-11,ETHYLENE,ASIA,spot,at_sight,845.43,usd_per_ton,businessanalytiq
+2026-05-18,ETHYLENE,ASIA,spot,at_sight,841.51,usd_per_ton,businessanalytiq
+2026-05-25,ETHYLENE,ASIA,spot,at_sight,833.75,usd_per_ton,businessanalytiq
+2026-06-01,ETHYLENE,ASIA,spot,at_sight,829.0,usd_per_ton,businessanalytiq
+2026-06-08,ETHYLENE,ASIA,spot,at_sight,830.8,usd_per_ton,businessanalytiq
+2026-03-23,PROPYLENE,ASIA,spot,at_sight,880.0,usd_per_ton,businessanalytiq
+2026-03-30,PROPYLENE,ASIA,spot,at_sight,883.35,usd_per_ton,businessanalytiq
+2026-04-06,PROPYLENE,ASIA,spot,at_sight,880.85,usd_per_ton,businessanalytiq
+2026-04-13,PROPYLENE,ASIA,spot,at_sight,873.05,usd_per_ton,businessanalytiq
+2026-04-20,PROPYLENE,ASIA,spot,at_sight,866.29,usd_per_ton,businessanalytiq
+2026-04-27,PROPYLENE,ASIA,spot,at_sight,865.77,usd_per_ton,businessanalytiq
+2026-05-04,PROPYLENE,ASIA,spot,at_sight,869.87,usd_per_ton,businessanalytiq
+2026-05-11,PROPYLENE,ASIA,spot,at_sight,871.93,usd_per_ton,businessanalytiq
+2026-05-18,PROPYLENE,ASIA,spot,at_sight,867.51,usd_per_ton,businessanalytiq
+2026-05-25,PROPYLENE,ASIA,spot,at_sight,859.25,usd_per_ton,businessanalytiq
+2026-06-01,PROPYLENE,ASIA,spot,at_sight,854.0,usd_per_ton,businessanalytiq
+2026-06-08,PROPYLENE,ASIA,spot,at_sight,855.3,usd_per_ton,businessanalytiq
+2026-03-23,TIO2,CN,quote,TT 60,2450.0,usd_per_ton,businessanalytiq
+2026-03-30,TIO2,CN,quote,TT 60,2470.91,usd_per_ton,businessanalytiq
+2026-04-06,TIO2,CN,quote,TT 60,2482.08,usd_per_ton,businessanalytiq
+2026-04-13,TIO2,CN,quote,TT 60,2484.42,usd_per_ton,businessanalytiq
+2026-04-20,TIO2,CN,quote,TT 60,2488.48,usd_per_ton,businessanalytiq
+2026-04-27,TIO2,CN,quote,TT 60,2502.94,usd_per_ton,businessanalytiq
+2026-05-04,TIO2,CN,quote,TT 60,2525.12,usd_per_ton,businessanalytiq
+2026-05-11,TIO2,CN,quote,TT 60,2543.88,usd_per_ton,businessanalytiq
+2026-05-18,TIO2,CN,quote,TT 60,2551.85,usd_per_ton,businessanalytiq
+2026-05-25,TIO2,CN,quote,TT 60,2553.42,usd_per_ton,businessanalytiq
+2026-06-01,TIO2,CN,quote,TT 60,2560.0,usd_per_ton,businessanalytiq
+2026-06-08,TIO2,CN,quote,TT 60,2577.5,usd_per_ton,businessanalytiq
+2026-03-23,STEARIC,SEA,quote,TT 30,1150.0,usd_per_ton,MPOB
+2026-03-30,STEARIC,SEA,quote,TT 30,1162.24,usd_per_ton,MPOB
+2026-04-06,STEARIC,SEA,quote,TT 30,1167.66,usd_per_ton,MPOB
+2026-04-13,STEARIC,SEA,quote,TT 30,1166.9,usd_per_ton,MPOB
+2026-04-20,STEARIC,SEA,quote,TT 30,1167.34,usd_per_ton,MPOB
+2026-04-27,STEARIC,SEA,quote,TT 30,1175.06,usd_per_ton,MPOB
+2026-05-04,STEARIC,SEA,quote,TT 30,1188.18,usd_per_ton,MPOB
+2026-05-11,STEARIC,SEA,quote,TT 30,1198.92,usd_per_ton,MPOB
+2026-05-18,STEARIC,SEA,quote,TT 30,1202.09,usd_per_ton,MPOB
+2026-05-25,STEARIC,SEA,quote,TT 30,1200.8,usd_per_ton,MPOB
+2026-06-01,STEARIC,SEA,quote,TT 30,1203.0,usd_per_ton,MPOB
+2026-06-08,STEARIC,SEA,quote,TT 30,1212.85,usd_per_ton,MPOB
+2026-03-23,ZINC_STEARATE,CN,quote,TT 60,2050.0,usd_per_ton,businessanalytiq
+2026-03-30,ZINC_STEARATE,CN,quote,TT 60,2066.02,usd_per_ton,businessanalytiq
+2026-04-06,ZINC_STEARATE,CN,quote,TT 60,2073.28,usd_per_ton,businessanalytiq
+2026-04-13,ZINC_STEARATE,CN,quote,TT 60,2072.58,usd_per_ton,businessanalytiq
+2026-04-20,ZINC_STEARATE,CN,quote,TT 60,2073.44,usd_per_ton,businessanalytiq
+2026-04-27,ZINC_STEARATE,CN,quote,TT 60,2083.65,usd_per_ton,businessanalytiq
+2026-05-04,ZINC_STEARATE,CN,quote,TT 60,2100.8,usd_per_ton,businessanalytiq
+2026-05-11,ZINC_STEARATE,CN,quote,TT 60,2114.89,usd_per_ton,businessanalytiq
+2026-05-18,ZINC_STEARATE,CN,quote,TT 60,2119.26,usd_per_ton,businessanalytiq
+2026-05-25,ZINC_STEARATE,CN,quote,TT 60,2117.88,usd_per_ton,businessanalytiq
+2026-06-01,ZINC_STEARATE,CN,quote,TT 60,2121.0,usd_per_ton,businessanalytiq
+2026-06-08,ZINC_STEARATE,CN,quote,TT 60,2133.95,usd_per_ton,businessanalytiq

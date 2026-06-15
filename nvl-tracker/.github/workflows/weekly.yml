@@ -1,0 +1,43 @@
+# Lịch tự động hàng tuần (Dự án A — GitHub Actions, 0đ, không cần máy bật).
+# Mặc định 07:00 thứ Tư giờ VN = 00:00 UTC thứ Tư. Đổi cron theo nhu cầu.
+name: weekly
+
+on:
+  schedule:
+    - cron: "0 0 * * 3"      # 00:00 UTC thứ Tư (~07:00 giờ VN)
+  workflow_dispatch:
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - run: pip install -r requirements.txt
+      - name: Thu thập + dựng báo cáo tuần + gửi Telegram
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          ANTHROPIC_MODEL: ${{ vars.ANTHROPIC_MODEL || 'claude-opus-4-8' }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          EIA_KEY: ${{ secrets.EIA_KEY }}
+          COMTRADE_KEY: ${{ secrets.COMTRADE_KEY }}
+          FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
+        run: python -m app.cli intel --collect --telegram
+      - name: Lưu artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: weekly-report
+          path: |
+            backend/data/reports/*.docx
+            backend/data/report-data.json
+          if-no-files-found: ignore

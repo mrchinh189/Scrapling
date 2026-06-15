@@ -1,0 +1,18 @@
+# =============================================================================
+# Nguồn backfill LỊCH SỬ (FRED — free key tại fred.stlouisfed.org).
+# Nạp 3–5 năm nền để forecast tin cậy hơn. Fail-soft khi thiếu FRED_API_KEY.
+#
+#   series_id   : mã chuỗi FRED
+#   product     : mã NVL/feedstock (khớp materials.yaml nếu muốn mở rộng chuỗi)
+#   raw_unit    : usd_per_bbl | usd_per_ton | index
+#   price_type  : spot | index
+#   source      : tên nguồn (khớp source_links.yaml → có FRED)
+#   note        : ghi chú (vd "proxy driver")
+# =============================================================================
+fred_series:
+  - { series_id: POILBREUSDM, product: BRENT, region: GLOBAL, raw_unit: usd_per_bbl, price_type: spot, source: FRED, note: "Brent monthly (backfill)" }
+  - { series_id: PPOILUSDM,   product: PALM_OIL, region: GLOBAL, raw_unit: usd_per_ton, price_type: spot, source: FRED, note: "proxy driver oleochemical (stearic/wax/zinc)" }
+  - { series_id: PCU325211325211, product: PPI_RESIN, region: US, raw_unit: index, price_type: index, source: FRED, note: "PPI plastics resin (tham chiếu)" }
+
+# Số năm nền cần nạp
+years: 3

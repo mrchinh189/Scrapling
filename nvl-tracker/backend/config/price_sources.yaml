@@ -1,0 +1,100 @@
+# =============================================================================
+# Nguồn giá thật cho COLLECTORS (Scrapling). Mỗi mục → các bản ghi price_master.
+# Bật `enabled: true` và điền `price_selector` đúng sau khi dò bằng:
+#   python -m app.cli inspect "<url>" "<css>"
+#
+# Trường:
+#   source        : tên nguồn (khớp config/source_links.yaml để có hyperlink)
+#   url           : trang chứa giá
+#   fetcher       : static | stealthy (trang chặn bot/JS)
+#   product       : mã NVL (khớp materials.yaml)
+#   region        : khu vực xuất xứ giá (US/CN/SEA/ME/ASIA/GLOBAL)
+#   price_type    : spot | futures | quote | unit_value
+#   payment_term  : at_sight | "L/C 90" | "TT 60" ...
+#   raw_unit      : usd_per_ton | cents_per_lb | rmb_per_ton | usd_per_bbl
+#   --- Chọn 1 trong 3 cách trích (ưu tiên từ trên xuống) ---
+#   price_selector: CSS selector tới ô giá (chính xác nhất)
+#   anchor_text   : nhãn gần giá (vd "Brent") — lấy SỐ gần nhất sau nhãn (bền layout)
+#   page_regex    : regex trên toàn trang, group(1) = số (vd "Brent[^0-9]+([0-9.,]+)")
+#   price_regex   : (tuỳ chọn) regex tách số từ text đã lấy
+#
+# 💡 Dò selector: lưu trang thành .html rồi:
+#     python -m app.cli inspect duong-dan/trang.html      (tự gợi ý selector, offline)
+#   hoặc trên máy có mạng: python -m app.cli inspect "<url>"
+# =============================================================================
+
+web_sources:
+  - source: ThePlasticsExchange
+    url: "https://www.theplasticsexchange.com/Research/SpotPricing.aspx"
+    fetcher: stealthy
+    product: PP
+    region: US
+    price_type: spot
+    payment_term: at_sight
+    raw_unit: cents_per_lb
+    price_selector: "REPLACE_ME"
+    enabled: false
+
+  - source: ThePlasticsExchange
+    url: "https://www.theplasticsexchange.com/Research/SpotPricing.aspx"
+    fetcher: stealthy
+    product: PE
+    region: US
+    price_type: spot
+    payment_term: at_sight
+    raw_unit: cents_per_lb
+    price_selector: "REPLACE_ME"
+    enabled: false
+
+  - source: businessanalytiq
+    url: "https://businessanalytiq.com/procurementanalytics/index/titanium-dioxide-price-index/"
+    fetcher: static
+    product: TIO2
+    region: CN
+    price_type: quote
+    payment_term: "TT 60"
+    raw_unit: usd_per_ton
+    price_selector: "REPLACE_ME"
+    enabled: false
+
+  # --- Nguồn bổ sung (research 2026-06-15, xem docs/RESEARCH-nguon-gia.md) ---
+  # Dầu cọ (driver oleochemical: stearic/wax/zinc stearate). Trang động → stealthy.
+  # Dùng anchor_text để bền layout; bật sau khi dò trên server (sandbox không cào được).
+  - source: MPOC
+    url: "https://www.mpoc.org.my/market-insight/daily-palm-oil-prices/"
+    fetcher: stealthy
+    product: PALM_OIL
+    region: GLOBAL
+    price_type: spot
+    payment_term: at_sight
+    raw_unit: usd_per_ton
+    anchor_text: "CPO"           # lấy số gần nhãn CPO; tinh chỉnh sau khi xem trang
+    enabled: false
+
+  # MPOB (chính phủ Malaysia, free) — nguồn dầu cọ ưu tiên hơn MPOC.
+  - source: MPOB
+    url: "https://bepi.mpob.gov.my/index.php/price/daily"
+    fetcher: stealthy
+    product: PALM_OIL
+    region: GLOBAL
+    price_type: spot
+    payment_term: at_sight
+    raw_unit: usd_per_ton
+    anchor_text: "Crude Palm Oil"
+    enabled: false
+
+  # SCI99 — DỊCH VỤ TRẢ PHÍ. ⚠️ Kiểm tra ToS / có thể cần đăng nhập trước khi bật.
+  # Chỉ dùng nếu bạn có quyền truy cập hợp lệ. Carbon black là phụ gia liên quan.
+  - source: SCI99
+    url: "https://intl.sci99.com/industry/12969/price"
+    fetcher: stealthy
+    product: CARBON_BLACK
+    region: CN
+    price_type: quote
+    payment_term: "TT 60"
+    raw_unit: usd_per_ton
+    price_selector: "REPLACE_ME"
+    enabled: false
+
+  # ❌ KHÔNG thêm Investing.com FCPO và LME Zinc làm mục tiêu cào — ToS cấm.
+  #    Dùng MPOB/FRED cho dầu cọ; nhập tay (form nội bộ) cho kẽm LME.

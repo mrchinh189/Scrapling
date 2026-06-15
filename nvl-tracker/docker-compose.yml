@@ -1,0 +1,39 @@
+# =============================================================================
+# NVL Price Tracker — chạy trên server/cloud của bạn bằng:  docker compose up -d
+# 3 service dùng chung 1 image:
+#   api       — REST API + lịch tự động (cron tuần)
+#   bot       — Bot Telegram nhận lệnh (/capnhat, /gia, /baocao)
+#   (worker scheduler nhúng sẵn trong api, không cần service riêng)
+# =============================================================================
+
+services:
+  api:
+    build:
+      context: ./backend
+      args:
+        INSTALL_BROWSERS: "false"   # đổi "true" nếu nguồn cần trình duyệt ẩn danh
+    image: nvl-tracker-backend
+    container_name: nvl-api
+    restart: unless-stopped
+    env_file: .env
+    ports:
+      - "8000:8000"
+    volumes:
+      - nvl-data:/app/data
+      - ./backend/sources.yaml:/app/sources.yaml:ro
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000
+
+  bot:
+    image: nvl-tracker-backend
+    container_name: nvl-bot
+    restart: unless-stopped
+    depends_on:
+      - api
+    env_file: .env
+    volumes:
+      - nvl-data:/app/data
+      - ./backend/sources.yaml:/app/sources.yaml:ro
+    command: python -m app.telegram_bot.bot
+
+volumes:
+  nvl-data:
